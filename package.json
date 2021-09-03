@@ -1,0 +1,14 @@
+{
+  "name": "okra",
+  "version": "1.0.0",
+  "description": "Okra Code Test",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Abraham Udele",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
+}
