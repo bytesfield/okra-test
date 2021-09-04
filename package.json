@@ -2,10 +2,10 @@
   "name": "okra",
   "version": "1.0.0",
   "description": "Okra Code Test",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "jest --watchAll",
-    "start": "nodemon index.js"
+    "test": "jest",
+    "start": "nodemon server.js"
   },
   "author": "Abraham Udele",
   "license": "ISC",

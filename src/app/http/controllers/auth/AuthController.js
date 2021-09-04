@@ -1,4 +1,3 @@
-const path = require('path');
 const JsonResponse = require('../../../modules/JsonResponse');
 const Helpers = require('../../../modules/Helpers');
 const { httpStatus } = require('../../../../config/status');
@@ -8,11 +7,9 @@ const Auth = require('../../services/AuthService');
 
 let jsonResponse = new JsonResponse();
 let auth = new Auth();
-let helper = new Helpers();
-
 
 /**
-   * Refund Customer
+   * Login User
    * @param {object} req
    * @param {object} res
    * 

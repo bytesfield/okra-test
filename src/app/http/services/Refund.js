@@ -8,6 +8,13 @@ class Refund {
         this.helper = new Helpers();
     }
 
+    /** Process Refund
+     * 
+     * @param {integer} companyId 
+     * @param {integer} customerId 
+     * @param {integer} amount 
+     * @returns 
+     */
     async process(companyId, customerId, amount) {
 
         let output = [

@@ -1,4 +1,3 @@
-const path = require('path');
 const JsonResponse = require('../../../modules/JsonResponse');
 const Helpers = require('../../../modules/Helpers');
 const { httpStatus } = require('../../../../config/status');
@@ -7,7 +6,6 @@ const Refund = require('../../services/Refund');
 
 let jsonResponse = new JsonResponse();
 let refund = new Refund();
-let helper = new Helpers();
 
 /**
    * Refund Customer

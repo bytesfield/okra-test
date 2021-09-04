@@ -22,6 +22,7 @@ describe("Refund Test", () => {
         const { res } = await helper.apiServer
             .post(`${urlPrefix}/refund`)
             .send(rightPayload);
+
         expect(res.statusCode).toEqual(200);
         expect(res.statusMessage).toBe("OK");
 
@@ -32,6 +33,7 @@ describe("Refund Test", () => {
         const { res } = await helper.apiServer
             .post(`${urlPrefix}/refund`)
             .send({});
+
         expect(res.statusCode).toEqual(422);
         expect(res.statusMessage).toBe("Unprocessable Entity");
 
@@ -42,6 +44,7 @@ describe("Refund Test", () => {
         const { res } = await helper.apiServer
             .post(`${urlPrefix}/refund`)
             .send(wrongPayload);
+
         expect(res.statusCode).toEqual(400);
         expect(res.statusMessage).toBe("Bad Request");
 
@@ -54,6 +57,7 @@ describe("Refund Test", () => {
         const { res } = await helper.apiServer
             .post(`${urlPrefix}/refund`)
             .send(rightPayload);
+
         expect(res.statusCode).toEqual(400);
         expect(res.statusMessage).toBe("Bad Request");
 

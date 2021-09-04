@@ -7,6 +7,12 @@ class AuthService {
         this.helper = new Helpers();
     }
 
+    /** Process Login and wallet refresh
+     * 
+     * @param {string} username 
+     * @param {string} password 
+     * @returns object
+     */
     async process(username, password) {
 
         let response = {
@@ -47,8 +53,8 @@ class AuthService {
         }
 
         let responseData = {
-            'name': userProfile.name,
             'id': profileId,
+            'name': userProfile.name,
             'wallet_balance_before': initialWalletBalance.toString(),
             'wallet_balance_after': newWallet.data.wallet.amount.toString(),
             'logout_message': logoutUser.message

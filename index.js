@@ -48,8 +48,7 @@ if (process.env.NODE_ENV == "production") {
     });
 }
 
-
-//AApi Routes
+//Api Routes
 app.use('/api/transaction', transactionApiRoutes);
 app.use('/api/auth', authApiRoutes);
 
@@ -60,6 +59,4 @@ app.use(exception.handleServerError);
 app.use(exception.handleReferenceError);
 app.use(exception.handleNotFoundError);
 
-const server = app.listen(port, () => console.log(`Server listening on port ${port}`));
-
-module.exports = server;
+module.exports = app;
