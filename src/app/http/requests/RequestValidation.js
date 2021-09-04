@@ -18,7 +18,22 @@ const refundValidation = (data) => {
 
 }
 
-module.exports = {
-    refundValidation
+const loginValidation = (data) => {
 
+    const loginSchema = Joi.object({
+
+        username: Joi.string()
+            .required(),
+        password: Joi.string()
+            .required()
+
+    });
+
+    return loginSchema.validate(data);
+
+}
+
+module.exports = {
+    refundValidation,
+    loginValidation
 };

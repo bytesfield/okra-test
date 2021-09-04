@@ -4,6 +4,7 @@ const cors = require("cors");
 const compression = require("compression");
 const csurf = require("csurf");
 const transactionApiRoutes = require('./src/routes/TransactionApiRoutes');
+const authApiRoutes = require('./src/routes/AuthApiRoutes');
 const exception = require('./src/app/http/middlewares/Exception');
 const cookieSession = require("cookie-session");
 
@@ -48,8 +49,9 @@ if (process.env.NODE_ENV == "production") {
 }
 
 
-//Auth APi
+//AApi Routes
 app.use('/api/transaction', transactionApiRoutes);
+app.use('/api/auth', authApiRoutes);
 
 //Exception Handlers Middleware
 app.use(exception.handleValidationError);

@@ -32,7 +32,7 @@ class Okra {
      * @returns {object} response
      */
     async fetchWallet(payload) {
-        let url = this.urlPrefix + '/fetch-wallet';
+        let url = `${this.urlPrefix}/fetch-wallet`;
 
         try {
             const response = await this.httpClient('POST', url, payload);
@@ -53,7 +53,7 @@ class Okra {
      * @returns {object} response
      */
     async pay(payload) {
-        let url = this.urlPrefix + '/pay';
+        let url = `${this.urlPrefix}/pay`;
 
         try {
             const response = await this.httpClient('POST', url, payload);
@@ -64,7 +64,65 @@ class Okra {
             console.log(error);
             return error;
         }
+    }
 
+    /**
+     * Logs a user in
+     * 
+     * @param {object} payload 
+     * @returns {object} response
+     */
+    async login(payload) {
+        let url = `${this.urlPrefix}/login`;
+
+        try {
+            const response = await this.httpClient('POST', url, payload);
+
+            return response;
+
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    }
+
+    /**
+     * Refresh User's Wallet
+     * 
+     * @param {object} payload 
+     * @returns {object} response
+     */
+    async refreshWallet(payload) {
+        let url = `${this.urlPrefix}/refresh-wallet`;
+
+        try {
+            const response = await this.httpClient('POST', url, payload);
+
+            return response;
+
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    }
+
+    /**
+     * Logs a user out
+     * 
+     * @returns {object} response
+     */
+    async logout() {
+        let url = `${this.urlPrefix}/logout`;
+
+        try {
+            const response = await this.httpClient('GET', url, {});
+
+            return response;
+
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
     }
 
 }

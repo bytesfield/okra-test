@@ -4,7 +4,7 @@
   "description": "Okra Code Test",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --watchAll",
     "start": "nodemon index.js"
   },
   "author": "Abraham Udele",
@@ -19,5 +19,17 @@
     "express": "^4.17.1",
     "joi": "^17.4.2",
     "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "jest": "^27.1.0",
+    "supertest": "^6.1.6"
+  },
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ]
   }
 }
