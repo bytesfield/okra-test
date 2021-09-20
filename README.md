@@ -21,7 +21,7 @@ Clone or download this repository to your machine:
 
 `npm install` to install all application dependencies.
 
-Update Environment variables, rename `.env.example` to `.env` and update `APP_PORT` to your desired port default is `3000`, also `APP_ENV` to `production` or `test` depending on your environment default is `test`.
+Update Environment variables, rename `.env.example` to `.env` and update `APP_PORT` to your desired port default is `3000`, also `APP_ENV` to `development`, `production` or `test` depending on your environment default is `development`.
 
 ### Step 3
 
@@ -78,27 +78,20 @@ http://localhost:3000/api/transaction/refund
 
 //RESPONSE
 {
-    "status": "Success",
+    "status": "success",
     "statusCode": 200,
-    "message": "Refund Processed Successfully",
-    "data": [
-        {
-            "status": "success",
-            "amount": 200
+    "message": "Refund processed successfully",
+    "data": {
+        "amount": 200,
+        "initialBalance": {
+            "amount": 50325884,
+            "currency": "NGN"
         },
-        {
-            "initialBalance": {
-                "amount": 50325884,
-                "currency": "NGN"
-            }
-        },
-        {
-            "currentBalance": {
-                "amount": 50328684,
-                "currency": "NGN"
-            }
+        "currentBalance": {
+            "amount": 50328684,
+            "currency": "NGN"
         }
-    ]
+    }
 }
 ```
 
