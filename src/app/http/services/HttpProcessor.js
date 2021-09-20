@@ -8,10 +8,11 @@ class HttpProcessor {
     * @param {string} url 
     * @param {string} apiKey 
     * @param {string} client 
+    * 
+    * @returns {HttpProcessor}
     */
     constructor(baseUrl, apiKey = null, client) {
 
-        //Configure axios
         axios.defaults.baseURL = baseUrl;
         axios.defaults.headers.common['Content-Type'] = 'application/json';
         axios.defaults.headers.common['Accept'] = 'application/json';
@@ -36,20 +37,18 @@ class HttpProcessor {
     * @param {string} method The call method get|post|put|delete|patch
     * @param {string} url The url to call
     * @param {object|array|formData} payload The payload data to send with the call
+    * 
+    * @returns {Promise<any>}
     */
     process(method, url, payload = {}) {
 
         return new Promise((res, rej) => {
-            this.customAxios({
-                method: method,
-                url: url,
-                data: payload
-            }).then((response) => {
-                res(response.data)
-
-            }).catch((err) => {
-                rej(err.response.data)
-            });
+            this.customAxios({ method: method, url: url, data: payload })
+                .then((response) => {
+                    res(response.data);
+                }).catch((error) => {
+                    rej(error.response.data);
+                });
         });
     }
 }

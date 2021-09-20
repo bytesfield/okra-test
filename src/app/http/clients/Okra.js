@@ -1,5 +1,7 @@
 const httpProcessor = require('../services/HttpProcessor');
 const services = require('../../../config/services');
+const { ApiException } = require('../exceptions');
+const config = require('../../../config');
 
 class Okra {
 
@@ -22,7 +24,7 @@ class Okra {
         //HttpProcessor class to handle axios calls
         let processor = new httpProcessor(this.baseUrl, this.apiKey, this.client);
 
-        return await processor.process(method, url, payload)
+        return await processor.process(method, url, payload);
     }
 
     /**
@@ -40,8 +42,7 @@ class Okra {
             return response;
 
         } catch (error) {
-            console.log(error);
-            return error;
+            throw new ApiException(error.message, config.http.code.BAD_REQUEST);
         }
 
     }
@@ -61,8 +62,7 @@ class Okra {
             return response;
 
         } catch (error) {
-            console.log(error);
-            return error;
+            throw new ApiException(error.message, config.http.code.BAD_REQUEST);
         }
     }
 
@@ -81,8 +81,7 @@ class Okra {
             return response;
 
         } catch (error) {
-            console.log(error);
-            return error;
+            throw new ApiException(error.message, config.http.code.BAD_REQUEST);
         }
     }
 
@@ -101,8 +100,7 @@ class Okra {
             return response;
 
         } catch (error) {
-            console.log(error);
-            return error;
+            throw new ApiException(error.message, config.http.code.BAD_REQUEST);
         }
     }
 
@@ -120,8 +118,7 @@ class Okra {
             return response;
 
         } catch (error) {
-            console.log(error);
-            return error;
+            throw new ApiException(error.message, config.http.code.BAD_REQUEST);
         }
     }
 

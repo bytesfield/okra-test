@@ -4,8 +4,8 @@
   "description": "Okra Code Test",
   "main": "server.js",
   "scripts": {
-    "test": "jest",
-    "start": "nodemon server.js"
+    "start": "nodemon src/server.js",
+    "test": "export APP_ENV=test || set APP_ENV=test && jest --detectOpenHandles  --watchAll"
   },
   "author": "Abraham Udele",
   "license": "ISC",

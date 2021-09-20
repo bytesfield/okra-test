@@ -1,4 +1,5 @@
 const Okra = require('../../src/app/http/clients/Okra');
+const { ApiException } = require('../../src/app/http/exceptions');
 
 let okra = new Okra();
 
@@ -17,18 +18,26 @@ describe("Refund Test", () => {
 
         const payload = { id: 573839293000 }
 
-        const response = await okra.fetchWallet(payload);
+        expect.assertions(2);
 
-        expect(response.message).toEqual('Wallet not found, please check the user or company ID and try again.');
+        try {
+            await okra.fetchWallet(payload);
+        } catch (error) {
+            expect(error).toBeInstanceOf(ApiException);
+            expect(error).toHaveProperty('message', 'Wallet not found, please check the user or company ID and try again.');
+        }
     }, 80000);
 
     it("Should not fetch Wallet with empty payload", async () => {
 
         const payload = {}
 
-        const response = await okra.fetchWallet(payload);
-
-        expect(response.message).toEqual('Please enter a valid ID to continue.');
+        try {
+            await okra.fetchWallet(payload);
+        } catch (error) {
+            expect(error).toBeInstanceOf(ApiException);
+            expect(error).toHaveProperty('message', 'Please enter a valid ID to continue.');
+        }
     }, 80000);
 
     it("Should pay with right payload", async () => {
@@ -52,18 +61,24 @@ describe("Refund Test", () => {
             amount: 200
         }
 
-        const response = await okra.pay(rightPayload);
-
-        expect(response.message).toEqual('Wallet(s) not found, please check the user or company ID and try again.');
+        try {
+            await okra.pay(rightPayload);
+        } catch (error) {
+            expect(error).toBeInstanceOf(ApiException);
+            expect(error).toHaveProperty('message', 'Wallet(s) not found, please check the user or company ID and try again.');
+        }
     }, 80000);
 
     it("Should not pay with empty payload", async () => {
 
         const rightPayload = {}
 
-        const response = await okra.pay(rightPayload);
-
-        expect(response.message).toEqual('Please enter valid wallet IDs to continue.');
+        try {
+            await okra.pay(rightPayload);
+        } catch (error) {
+            expect(error).toBeInstanceOf(ApiException);
+            expect(error).toHaveProperty('message', 'Please enter valid wallet IDs to continue.');
+        }
     }, 80000);
 
 

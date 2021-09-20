@@ -1,30 +1,28 @@
 const Okra = require('../clients/Okra');
-const Helpers = require('../../modules/Helpers');
+const { isEmptyObject } = require('../../../utils/helpers');
+const { success, badRequest } = require('../../http/responses');
 
 class AuthService {
     constructor() {
         this.okra = new Okra();
-        this.helper = new Helpers();
     }
 
     /** Process Login and wallet refresh
      * 
+     * @param {Response} res 
      * @param {string} username 
      * @param {string} password 
-     * @returns object
+     * 
+     * @returns {Promise<any>}
      */
-    async process(username, password) {
+    async process(res, username, password) {
 
-        let response = {
-            'status': "success",
-            'message': "Logic Processed Successfully",
-            'data': {}
-        };
+        let response = {};
 
         const user = await this.okra.login({ username: username, password: password });
 
         if (user.status && user.status === 'error') {
-            return user;
+            return badRequest(res, user.message);
         }
 
         const userProfile = user.data.profile;
@@ -33,7 +31,7 @@ class AuthService {
 
         let initialWalletBalance;
 
-        if (userWallet !== null && !this.helper.isEmptyObject(userWallet)) {
+        if (userWallet !== null && !isEmptyObject(userWallet)) {
             initialWalletBalance = userWallet.amount;
         }
 
@@ -42,14 +40,14 @@ class AuthService {
         let newWallet = await this.okra.refreshWallet({ id: profileId, variable: mockVariable });
 
         if (newWallet.status && newWallet.status === 'error') {
-            return newWallet;
+            return badRequest(res, newWallet.message);
         }
 
         //Logs User out
         let logoutUser = await this.okra.logout();
 
         if (logoutUser.status && logoutUser.status != 'success') {
-            return logoutUser;
+            return badRequest(res, logoutUser.message);
         }
 
         let responseData = {
@@ -60,9 +58,9 @@ class AuthService {
             'logout_message': logoutUser.message
         }
 
-        response['data'] = responseData;
+        response = responseData;
 
-        return response;
+        return success(res, 'Logic processed successfully', response);
 
     }
 

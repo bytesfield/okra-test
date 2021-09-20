@@ -1,72 +1,63 @@
 const Okra = require('../clients/Okra');
-const Helpers = require('../../modules/Helpers');
+const { isEmptyObject } = require('../../../utils/helpers');
+const { success, badRequest } = require('../../http/responses');
 
 class Refund {
 
     constructor() {
         this.okra = new Okra();
-        this.helper = new Helpers();
     }
 
     /** Process Refund
      * 
+     * @param {Response} res 
      * @param {integer} companyId 
      * @param {integer} customerId 
      * @param {integer} amount 
-     * @returns 
+     * 
+     * @returns {Promise<any>}
      */
-    async process(companyId, customerId, amount) {
+    async process(res, companyId, customerId, amount) {
 
-        let output = [
-            {
-                status: 'success',
-                amount: amount
-            }
-        ];
+        let output = {
+            amount: amount
+        };
 
         const companyWallet = await this.okra.fetchWallet({ id: companyId });
 
-        if (this.helper.isEmptyObject(companyWallet.data)) {
-            console.log(companyWallet.message);
-            return companyWallet.message;
+        if (isEmptyObject(companyWallet.data)) {
+            return badRequest(res, companyWallet.message);
         }
 
         const customerWallet = await this.okra.fetchWallet({ id: customerId });
 
-        if (this.helper.isEmptyObject(customerWallet.data)) {
-            console.log(customerWallet.message);
-            return customerWallet.message;
+        if (isEmptyObject(customerWallet.data)) {
+            return badRequest(res, customerWallet.message);
         }
 
         const companyWalletAmount = companyWallet.data.wallet.amount;
 
         const customerBeforeBalance = {
-            initialBalance: {
-                amount: customerWallet.data.wallet.amount,
-                currency: customerWallet.data.wallet.currency
-            }
+            amount: customerWallet.data.wallet.amount,
+            currency: customerWallet.data.wallet.currency
         };
 
-        output.push(customerBeforeBalance);
+        output['initialBalance'] = customerBeforeBalance;
 
         if (companyWalletAmount && companyWalletAmount < amount) {
-            const message = 'Company balance is insufficient to make refund';
-            console.log(message);
-            return message;
+            return badRequest(res, 'Company balance is insufficient to make refund');
         }
 
         const processRefund = await this.okra.pay({ from_id: companyId, to_id: customerId, amount: amount });
 
         const customerAfterBalance = {
-            currentBalance: {
-                amount: processRefund.data.wallets.to.amount,
-                currency: processRefund.data.wallets.to.currency
-            }
+            amount: processRefund.data.wallets.to.amount,
+            currency: processRefund.data.wallets.to.currency
         };
 
-        output.push(customerAfterBalance);
+        output['currentBalance'] = customerAfterBalance;
 
-        return output;
+        return success(res, 'Refund processed successfully', output);
 
     }
 

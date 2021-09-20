@@ -1,16 +1,21 @@
 const Okra = require('../../src/app/http/clients/Okra');
+const { ApiException } = require('../../src/app/http/exceptions');
 
 let okra = new Okra();
 
 describe("Logic Test", () => {
 
     it("Should not login if payload is empty", async () => {
+        expect.assertions(2);
 
-        const payload = {}
+        try {
+            const payload = {}
 
-        const response = await okra.login(payload);
-
-        expect(response.message).toEqual('You must enter both username and password to continue!');
+            await okra.login(payload);
+        } catch (error) {
+            expect(error).toBeInstanceOf(ApiException);
+            expect(error).toHaveProperty('message', 'You must enter both username and password to continue!');
+        }
     }, 80000);
 
     it("Should not login with wrong credentials", async () => {
@@ -20,9 +25,15 @@ describe("Logic Test", () => {
             password: "okra_pass_wrong"
         }
 
-        const response = await okra.login(payload);
+        expect.assertions(2);
 
-        expect(response.message).toEqual('Incorrect username and/or password, please try again!');
+        try {
+
+            await okra.login(payload);
+        } catch (error) {
+            expect(error).toBeInstanceOf(ApiException);
+            expect(error).toHaveProperty('message', 'Incorrect username and/or password, please try again!');
+        }
     }, 80000);
 
     it("Should login with right credentials", async () => {
